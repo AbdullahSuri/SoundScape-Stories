@@ -1,0 +1,118 @@
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand click-scroll" href="/">
+            <i class="bi-soundwave"></i>
+            <span>Soundscape Stories</span>
+        </a>
+
+        <div class="d-lg-none ms-auto me-4">
+            <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+        </div>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-lg-5 me-lg-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="articles">Articles</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="community">Community</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="mood">Mood</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link click-scroll active" href="audiolog">AudioLog</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="soundmap">SoundMap</a>
+                </li>
+            <div class="d-none d-lg-block">
+                <ul class="navbar-nav ms-lg-5 me-lg-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Sign Out</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+<section class="hero-section d-flex justify-content-center align-items-center" id="section_1">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-12 text-center">
+                    <h2 class="mb-4">Your Personal Log</h2>
+                    <a href="/addDiary" class="btn custom-btn custom-btn2 mt-3 mt-lg-4">Click Here to Add Today's Entry</a>
+            </div>
+
+            <div class="col-lg-8 col-12 mt-3 mx-auto">
+                {{#if allEntries.length}}
+                    {{#each allEntries}}
+                        <div class="custom-block custom-block-topics-listing bg-white shadow-lg mb-5">
+                            <div class="d-flex">
+                                {{#if (eq this.mood "angry")}}
+                                    <img src="images/wangry.png" class="custom-block-image img-fluid" alt="">
+                                {{else if (eq this.mood "happy")}}
+                                    <img src="images/whappy.png" class="custom-block-image img-fluid" alt="">
+                                {{else if (eq this.mood "sad")}}
+                                    <img src="images/wsad.png" class="custom-block-image img-fluid" alt="">
+                                {{else}}
+                                    <img src="images/wcalm.png" class="custom-block-image img-fluid" alt="">
+                                {{/if}}
+
+                                {{!-- <img src="images/topics/undraw_Remote_design_team_re_urdx.png" class="custom-block-image img-fluid" alt=""> --}}
+
+
+                                <div class="custom-block-topics-listing-info d-flex">
+                                    <div>
+                                        {{!-- <h5 class="mb-2">[{{formatDate2 this.date}}] {{this.summary}}</h5> --}}
+                                        <h5 class="mb-2">{{this.summary}}</h5> <p style="color:grey; font-size:12px;">Entry Created on: {{formatDate2 this.date}}</p>
+
+
+                                        <p class="mb-0">{{this.thoughts}}</p>
+                                        </p>
+
+                                        <form method="POST" action="/deleteDiary">
+                                            <input type="hidden" name="blogId" value="{{this._id}}">
+                                            <button type="submit" class="btn custom-btn mt-3 mt-lg-4">Delete</button>
+                                        </form> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {{/each}}
+                {{else}}
+                    <div class="custom-block custom-block-topics-listing bg-white shadow-lg mb-5">
+                            <div class="d-flex">
+                                <img src="images/topics/undraw_Remote_design_team_re_urdx.png" class="custom-block-image img-fluid" alt="">
+
+                                <div class="custom-block-topics-listing-info d-flex">
+                                    <div>
+                                        <h5 class="mb-2">No Entries Found</h5>
+
+                                        <p class="mb-0">You still haven't added anything to your audiolog yet. Click on the button above to start your journaling journey.</p>
+                                        </p>
+
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</section>

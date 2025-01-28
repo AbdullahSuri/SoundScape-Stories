@@ -1,0 +1,550 @@
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+    <style>
+        .goal-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 20px;
+            text-ita
+        }
+
+        .goal-content {
+            flex-grow: 1;
+            padding: 10px; 
+            font-family: "Times New Roman", Times, serif;" 
+        }
+
+        .goal-content:hover {
+            background-color: #f0f0f0;
+        }
+        nav.navbar {
+        position: relative; /* Ensure the navbar's position context is established */
+        z-index: 1000; /* Higher z-index to place it above other elements */
+        }
+
+        #map {
+            position: relative; /* Ensure the map stays within its container */
+            z-index: 1; /* Lower z-index to ensure it goes below the navbar */
+            height: 100vh; /* Full viewport height */
+            width: 100%; /* Full width */
+        }
+
+        .container {
+            position: relative; /* Establish a stacking context */
+        }
+        .popup-content {
+            text-align: left;
+            display: flex;
+        }
+        .popup-content img {
+            width: 150px; /* Set to your preferred width */
+            height: auto; /* Maintain aspect ratio */
+            max-height: 100px; /* Optional: Add a maximum height */
+            object-fit: contain; /* Ensures image fits within specified dimensions */
+        }
+        .popup-content {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .popup-flex {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .popup-flex img {
+            width: 150px; /* Adjust width as needed */
+            height: auto; /* Maintain aspect ratio */
+            margin-right: 15px; /* Space between image and text */
+            border-radius: 5px; /* Optional: rounded corners */
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Optional: shadow for better visual */
+        }
+
+        .popup-text {
+            max-width: 300px; /* Adjust based on popup size */
+            font-family: Arial, sans-serif;
+            line-height: 1.4;
+        }
+
+        .popup-text h3 {
+            margin: 0 0 5px 0;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .popup-text p {
+            margin: 0;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar2">
+    <div class="container">
+        <a class="navbar-brand click-scroll" href="/">
+            <i class="bi-soundwave"></i>
+            <span>Soundscape Stories</span>
+        </a>
+
+        <div class="d-lg-none ms-auto me-4">
+            <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+        </div>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-lg-5 me-lg-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="articles">Articles</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="community">Community</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="mood">Mood</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="audiolog">AudioLog</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link click-scroll active" href="soundmap">SoundMap</a>
+                </li>
+            <div class="d-none d-lg-block">
+                <ul class="navbar-nav ms-lg-5 me-lg-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Sign Out</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+<main>
+    <section class="goals-section section-padding" id="section_goals" style="background-color:rgb(232, 246, 249)">
+        <div class="container" style="border:rgb(0, 0, 0) solid 5px; background-color: #80d0c7;box-shadow: 5px 5px 5px lightgrey; margin-top:30px">
+            <div id="map"></div>
+
+            <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+            <script>
+                // Initialize the map and set its view to Manhattan's coordinates
+                var map = L.map('map').setView([40.7831, -73.9712], 13);
+
+                // Add OpenStreetMap tiles
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                }).addTo(map);
+
+                // Add a marker with detailed popup content
+                {{!-- var marker = L.marker([40.7831, -73.9712]).addTo(map); --}}
+                var union_marker = L.marker([40.73460796393665, -73.99035219323927]).addTo(map);
+                var conwell_marker = L.marker([40.70559796450029, -74.0090930202241]).addTo(map);
+                var harlem_marker = L.marker([40.80824124062748, -73.94415673955851]).addTo(map);
+                var jp_marker = L.marker([40.74958342597432, -73.981300540445]).addTo(map);
+                var columbus_marker = L.marker([40.78530833072652, -73.97291520673244]).addTo(map);
+                var stonewall_marker = L.marker([40.73398706537088, -74.0020928625538]).addTo(map);
+                var trinity_marker = L.marker([40.70806216707442, -74.01178300514212]).addTo(map);
+                var auzataar_marker = L.marker([40.75913288028022, -73.9627355067299]).addTo(map);
+                var bakery_marker = L.marker([40.82583562330236, -73.9495336737475]).addTo(map);
+                var herald_marker = L.marker([40.750329299785, -73.98766510090977]).addTo(map);
+                var library_marker = L.marker([40.76102465550317, -73.97728255091597]).addTo(map);
+                var met_marker = L.marker([40.77956658690658, -73.96329227974825]).addTo(map);
+                var timesquare_marker = L.marker([40.758137236091116, -73.98546213372236]).addTo(map);
+                var wollman_marker = L.marker([40.76797451206486, -73.97437407789505]).addTo(map);
+
+                var unionContent = `
+                    <div class="popup-content">
+                        <div class="popup-flex">
+                            <img src="images/union.jpeg" alt="Union Square Subway">
+                            <div class="popup-text">
+                                <h3>Union Square Subway</h3>
+                                <p>"One time, I stood there and just listened—a guy was playing guitar, someone else was shouting about climate change, and the subway rumbled underneath. It felt like the city was telling its own story, messy and loud but somehow perfect."</p>
+                            </div>
+                        </div>
+                    </div>`;
+
+                var conwellContent = `
+                    <div class="popup-content">
+                        <div class="popup-flex">
+                            <img src="images/conwell.jpg" alt="Conwell Coffee Hall">
+                            <div class="popup-text">
+                                <h3>Conwell Coffee Hall</h3>
+                                <p>"There was this one rainy afternoon I spent here. The espresso machine hissed like it was alive, and soft conversations swirled around me. It felt like the world outside didn’t exist for a moment."</p>
+                            </div>
+                        </div>
+                    </div>`;
+
+                var harlemContent = `
+                    <div class="popup-content">
+                        <div class="popup-flex">
+                            <img src="images/harlem.jpeg" alt="Harlem Streets">
+                            <div class="popup-text">
+                                <h3>Harlem Streets</h3>
+                                <p>"Once, I turned a corner and found this guy playing a sax under a streetlight. It wasn’t a performance—it was like he was just playing for himself. But it filled the whole block with this raw, soulful energy. That’s Harlem."</p>
+                            </div>
+                        </div>
+                    </div>`;
+
+                var jpContent = `
+                    <div class="popup-content">
+                        <div class="popup-flex">
+                            <img src="images/jp.jpg" alt="JP Morgan Library & Museum">
+                            <div class="popup-text">
+                                <h3>JP Morgan Library & Museum</h3>
+                                <p>"One day, I just sat there, listening to the sound of someone flipping pages in a book across the room. It was so quiet you could hear the history in the walls. I don’t know why, but it made me feel really small, in a good way."</p>
+                            </div>
+                        </div>
+                    </div>`;
+
+                var columbusContent = `
+                    <div class="popup-content">
+                        <div class="popup-flex">
+                            <img src="images/columbus.jpg" alt="Shops at Columbus Avenue">
+                            <div class="popup-text">
+                                <h3>Shops at Columbus Avenue</h3>
+                                <p>"It’s weirdly quiet for the city. I remember walking here after a long day, hearing a dog bark in the distance and soft conversations around me. It’s like the noise knows how to take a step back here."</p>
+                            </div>
+                        </div>
+                    </div>`;
+
+                var stonewallContent = `
+                    <div class="popup-content">
+                        <div class="popup-flex">
+                            <img src="images/stonewall.jpeg" alt="The Stonewall Inn">
+                            <div class="popup-text">
+                                <h3>The Stonewall Inn</h3>
+                                <p>"I walked by one night, and the laughter was so loud it spilled onto the street. People were singing along to some throwback anthem inside, and I couldn’t help but smile. It’s impossible to feel down around that kind of energy."</p>
+                            </div>
+                        </div>
+                    </div>`;
+
+                var trinityContent = `
+                    <div class="popup-content">
+                        <div class="popup-flex">
+                            <img src="images/trinity.jpg" alt="Trinity Church">
+                            <div class="popup-text">
+                                <h3>Trinity Church</h3>
+                                <p>"I came here on a whim once, looking for some peace. All I heard was the wind rustling through the trees and this faint hum of the city far off. It’s one of the few places where New York feels still."</p>
+                            </div>
+                        </div>
+                    </div>`;
+
+                var auzataarContent = `
+                    <div class="popup-content">
+                        <div class="popup-flex">
+                            <img src="images/auzataar.jpeg" alt="Au Zataar">
+                            <div class="popup-text">
+                                <h3>Au Zataar</h3>
+                                <p>"The first time I came here, the smell of grilled kebabs hit me before I even opened the door. Inside, you hear the sizzle and the gentle clink of plates. It’s the kind of noise that makes you feel like you’re home, even if you’re not."</p>
+                            </div>
+                        </div>
+                    </div>`;
+
+                var bakeryContent = `
+                    <div class="popup-content">
+                        <div class="popup-flex">
+                            <img src="images/bakery.jpeg" alt="Harlem Bakery">
+                            <div class="popup-text">
+                                <h3>Harlem Bakery</h3>
+                                <p>"I remember standing in line here, listening to the oven’s soft beeps and the jingle of the doorbell. Someone started laughing so hard that the rest of us couldn’t help but smile. It was like the whole bakery caught the vibe."</p>
+                            </div>
+                        </div>
+                    </div>`;
+
+                var heraldContent = `
+                    <div class="popup-content">
+                        <div class="popup-flex">
+                            <img src="images/herald.jpg" alt="Herald Square Holiday Market">
+                            <div class="popup-text">
+                                <h3>Herald Square Holiday Market</h3>
+                                <p>"I stumbled on this little market last winter. Snow was crunching under my boots, and people were chatting and laughing. Then I heard these tiny wind chimes from a vendor’s stall. It was so delicate, but it made everything else feel magical."</p>
+                            </div>
+                        </div>
+                    </div>`;
+
+                var libraryContent = `
+                    <div class="popup-content">
+                        <div class="popup-flex">
+                            <img src="images/library.png" alt="Outside New York Public Library">
+                            <div class="popup-text">
+                                <h3>Outside New York Public Library</h3>
+                                <p>"I was sitting on the steps once, and a street performer started playing ‘Summertime’ on the sax. Traffic was honking and people were rushing by, but somehow, that song cut through it all. For a moment, it felt like the whole city paused."</p>
+                            </div>
+                        </div>
+                    </div>`;
+
+                var metContent = `
+                    <div class="popup-content">
+                        <div class="popup-flex">
+                            <img src="images/met.jpeg" alt="Metropolitan Museum of Art">
+                            <div class="popup-text">
+                                <h3>Metropolitan Museum of Art</h3>
+                                <p>"There’s this odd echo inside—soft footsteps on marble, whispers blending with the silence. I remember walking through the Egyptian exhibit, and the quiet felt ancient, like it was holding onto secrets."</p>
+                            </div>
+                        </div>
+                    </div>`;
+
+                var timesquareContent = `
+                    <div class="popup-content">
+                        <div class="popup-flex">
+                            <img src="images/timesquare.JPEG" alt="Times Square">
+                            <div class="popup-text">
+                                <h3>Times Square</h3>
+                                <p>"Okay, I’ll admit it—Times Square can be a lot. But there was one time I stopped dead in the middle of all the chaos. Honking, shouting, flashing lights—it should’ve been overwhelming, but it felt like the city was alive, buzzing with energy."</p>
+                            </div>
+                        </div>
+                    </div>`;
+
+                var wollmanContent = `
+                    <div class="popup-content">
+                        <div class="popup-flex">
+                            <img src="images/wollman.jpeg" alt="Wollman Rink - Central Park">
+                            <div class="popup-text">
+                                <h3>Wollman Rink - Central Park</h3>
+                                <p>"I’ll never forget this one moment—I was watching a little kid fall on the ice, laughing so hard as their dad helped them up. The skates scraping the ice, the music, the laughter—it all felt so alive, like joy you could hear."</p>
+                            </div>
+                        </div>
+                    </div>`;
+
+
+                {{!-- marker.bindPopup(popupContent); --}}
+                union_marker.bindPopup(unionContent);
+                conwell_marker.bindPopup(conwellContent);
+                harlem_marker.bindPopup(harlemContent);
+                jp_marker.bindPopup(jpContent);
+                columbus_marker.bindPopup(columbusContent);
+                stonewall_marker.bindPopup(stonewallContent);
+                herald_marker.bindPopup(heraldContent);
+                trinity_marker.bindPopup(trinityContent);
+                auzataar_marker.bindPopup(auzataarContent);
+                harlem_marker.bindPopup(harlemContent);
+                bakery_marker.bindPopup(bakeryContent);
+                library_marker.bindPopup(libraryContent);
+                met_marker.bindPopup(metContent);
+                timesquare_marker.bindPopup(timesquareContent);
+                wollman_marker.bindPopup(wollmanContent);
+
+                let audio = null;
+
+                {{!-- marker.on('click', function () {
+                    audio = new Audio('audio.mp3');
+                    audio.play();
+                });
+
+                map.on('popupclose', function () {
+                    console.log('Popup closed');
+                    if (audio) {
+                        audio.pause();
+                        audio.currentTime = 0;
+                    }
+                }); --}}
+
+                union_marker.on('click', function () {
+                    audio = new Audio('/audio/union.m4a');
+                    audio.play();
+                });
+
+                {{!-- map.on('popupclose', function () {
+                    console.log('Popup closed');
+                    if (audio) {
+                        audio.pause();
+                        audio.currentTime = 0;
+                    }
+                }); --}}
+
+                conwell_marker.on('click', function () {
+                    audio = new Audio('/audio/conwell.mp4');
+                    audio.play();
+                });
+
+                {{!-- map.on('popupclose', function () {
+                    console.log('Popup closed');
+                    if (audio) {
+                        audio.pause();
+                        audio.currentTime = 0;
+                    }
+                }); --}}
+
+                harlem_marker.on('click', function () {
+                    audio = new Audio('/audio/harlem.mp4');
+                    audio.play();
+                });
+
+                {{!-- map.on('popupclose', function () {
+                    console.log('Popup closed');
+                    if (audio) {
+                        audio.pause();
+                        audio.currentTime = 0;
+                    }
+                }); --}}
+
+                jp_marker.on('click', function () {
+                    audio = new Audio('/audio/jp.mp4');
+                    audio.play();
+                });
+
+                {{!-- map.on('popupclose', function () {
+                    console.log('Popup closed');
+                    if (audio) {
+                        audio.pause();
+                        audio.currentTime = 0;
+                    }
+                }); --}}
+
+                columbus_marker.on('click', function () {
+                    audio = new Audio('/audio/columbus.mp4');
+                    audio.play();
+                });
+
+                {{!-- map.on('popupclose', function () {
+                    console.log('Popup closed');
+                    if (audio) {
+                        audio.pause();
+                        audio.currentTime = 0;
+                    }
+                }); --}}
+
+                stonewall_marker.on('click', function () {
+                    audio = new Audio('/audio/stonewall.mp4');
+                    audio.play();
+                });
+
+                {{!-- map.on('popupclose', function () {
+                    console.log('Popup closed');
+                    if (audio) {
+                        audio.pause();
+                        audio.currentTime = 0;
+                    }
+                }); --}}
+
+                trinity_marker.on('click', function () {
+                    audio = new Audio('/audio/trinity.mp4');
+                    audio.play();
+                });
+
+                {{!-- map.on('popupclose', function () {
+                    console.log('Popup closed');
+                    if (audio) {
+                        audio.pause();
+                        audio.currentTime = 0;
+                    }
+                }); --}}
+
+                auzataar_marker.on('click', function () {
+                    audio = new Audio('/audio/auzataar.mp4');
+                    audio.play();
+                });
+
+                {{!-- map.on('popupclose', function () {
+                    console.log('Popup closed');
+                    if (audio) {
+                        audio.pause();
+                        audio.currentTime = 0;
+                    }
+                }); --}}
+
+                bakery_marker.on('click', function () {
+                    audio = new Audio('/audio/bakery.mp4');
+                    audio.play();
+                });
+
+                {{!-- map.on('popupclose', function () {
+                    console.log('Popup closed');
+                    if (audio) {
+                        audio.pause();
+                        audio.currentTime = 0;
+                    }
+                }); --}}
+
+                herald_marker.on('click', function () {
+                    audio = new Audio('/audio/herald.mp4');
+                    audio.play();
+                });
+
+                {{!-- map.on('popupclose', function () {
+                    console.log('Popup closed');
+                    if (audio) {
+                        audio.pause();
+                        audio.currentTime = 0;
+                    }
+                }); --}}
+
+                library_marker.on('click', function () {
+                    audio = new Audio('/audio/library.m4a');
+                    audio.play();
+                });
+
+                {{!-- map.on('popupclose', function () {
+                    console.log('Popup closed');
+                    if (audio) {
+                        audio.pause();
+                        audio.currentTime = 0;
+                    }
+                }); --}}
+
+                met_marker.on('click', function () {
+                    audio = new Audio('/audio/met.mp4');
+                    audio.play();
+                });
+
+                {{!-- map.on('popupclose', function () {
+                    console.log('Popup closed');
+                    if (audio) {
+                        audio.pause();
+                        audio.currentTime = 0;
+                    }
+                }); --}}
+
+                timesquare_marker.on('click', function () {
+                    audio = new Audio('/audio/timesquare.mp4');
+                    audio.play();
+                });
+
+                {{!-- map.on('popupclose', function () {
+                    console.log('Popup closed');
+                    if (audio) {
+                        audio.pause();
+                        audio.currentTime = 0;
+                    }
+                }); --}}
+
+                wollman_marker.on('click', function () {
+                    audio = new Audio('/audio/wollman.m4a');
+                    audio.play();
+                });
+
+                map.on('popupclose', function () {
+                    console.log('Popup closed');
+                    if (audio) {
+                        audio.pause();
+                        audio.currentTime = 0;
+                    }
+                });
+            </script>
+        </div>
+    </section>
+</main>
+<footer class="site-footer section-padding">
+    <div class="container">
+        <div class="row">
+
+        </div>
+    </div>
+</footer>
+</body>
+
+

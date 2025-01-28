@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body{
+            background-color: rgb(249, 247, 247);
+            background-image: none;
+        }
+
+        #eventChart{
+            margin: 0 auto;
+            height: 400px;
+            width: 400px;
+            background-color: rgb(5, 5, 5);
+        }
+    </style>
+</head>
+<nav class="navbar navbar-expand-lg navbar2">
+    <div class="container">
+        <a class="navbar-brand click-scroll" href="/">
+            <i class="bi-soundwave"></i>
+            <span>Soundscape Stories</span>
+        </a>
+
+        <div class="d-lg-none ms-auto me-4">
+            <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+        </div>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-lg-5 me-lg-auto">
+                <li class="nav-item">
+                    <a class="nav-link inactive" href="/">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link click-scroll" href="articles">Articles</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="community">Community</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="faq">Mood Tunes</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="diary">Dear Diary</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link active" href="goals">Goals</a>
+                </li>
+
+                {{!-- <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
+
+                    <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+                        <li><a class="dropdown-item" href="topics-listing.html">Topics Listing</a></li>
+
+                        <li><a class="dropdown-item" href="contact.html">Contact Form</a></li>
+                    </ul>
+                </li> --}}
+            </ul>
+
+            {{!-- <div class="d-none d-lg-block">
+                <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+            </div> --}}
+            <div class="d-none d-lg-block">
+                <ul class="navbar-nav ms-lg-5 me-lg-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Sign Out</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+ 
+<!-- Include Chart.js library -->
+<body>
+    <section class="goals-section section-padding" id="section_goals">
+        <div class="container">
+            <div class="row">
+                <div class="clearfix"></div>
+                    <div class="col-lg-5 col-12">
+                    </div>
+                    <div class="col-lg-6 col-12 m-auto">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- HTML Canvas for the Chart -->
+   
+   <div class="col-lg-5 col-12">
+                      
+        <div class="content-container" style="width:50%">
+            <h2>Goals</h2>
+            <h4>Number of Goals Completed per Day</h4>
+        <canvas id="goalChart" width="200" height="100"></canvas>
+        </div>
+    </div>
+
+    
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    // Function to get the date string for the past n days
+    function getPastDates(n) {
+        const dates = [];
+        for (let i = n - 1; i >= 0; i--) {
+            const date = new Date();
+            date.setDate(date.getDate() - i);
+            dates.push(date.toLocaleDateString('en-US'));
+        }
+        return dates;
+    }
+
+    // Assuming you have retrieved the goals completed for the past 30 days
+    let goalsCompleted = [];
+    //console.log("goals", goals);
+
+    {{#each goals}}
+    goalsCompleted.push({
+        date: '{{this.date}}'
+    });
+    {{/each}}
+
+
+    console.log("goals completed", goalsCompleted);
+    // Organize the data to count the number of goals completed for each day
+    const goalCounts = {};
+    goalsCompleted.forEach(goal => {
+        const date = new Date(goal.date).toLocaleDateString('en-US');
+        goalCounts[date] = (goalCounts[date] || 0) + 1;
+    });
+    console.log("goal counts", goalCounts);
+    console.log("goals completed", goalsCompleted);
+    // Get the past 30 days as labels for the chart
+    const labels = getPastDates(10);
+    console.log('labels', labels);
+    // Prepare the data for the chart
+    const data = labels.map(date => goalCounts[date] || 0);
+    console.log('data', data);
+    // Render the chart using Chart.js
+    var ctx = document.getElementById('goalChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Number of Goals Completed Each Day',
+                data: data,
+                backgroundColor: 'lightblue',
+                borderColor: 'black',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Date',
+                        color: 'black'
+                    },
+                    ticks: {
+                        color: 'black'
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Number of Goals',
+                        color: 'black'
+                    },
+                    ticks: {
+                        color: 'black'
+                    },
+                    grid: {
+                        color: 'black'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                    labels: {
+                        color: 'black' // Text color for legend labels
+                    }
+                }
+            },
+            layout: {
+                padding: {
+                    left: 10,
+                    right: 10,
+                    top: 10,
+                    bottom: 10
+                }
+            },
+            responsive: true // Enable responsiveness
+        }
+    });
+});
+
+</script>
+</html>

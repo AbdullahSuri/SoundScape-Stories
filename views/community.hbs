@@ -1,0 +1,350 @@
+<html>
+    <head>
+        <style>
+            .commentsContainer {
+                background-color: #f9f9f9;
+                border: 1px solid #ccc;
+                padding: 10px;
+                margin-bottom: 20px;
+                
+                }
+
+                .comment {
+                margin-bottom: 10px;
+                padding: 5px;
+                background-color: #fff;
+                border: 1px solid #ddd;
+                }
+
+        </style>
+    </head>
+<body>
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand click-scroll" href="/">
+            <i class="bi-soundwave"></i>
+            <span>Soundscape Stories</span>
+        </a>
+
+        <div class="d-lg-none ms-auto me-4">
+            <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+        </div>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-lg-5 me-lg-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="articles">Articles</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link click-scroll active" href="community">Community</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="mood">Mood</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="audiolog">AudioLog</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="soundmap">SoundMap</a>
+                </li>
+            <div class="d-none d-lg-block">
+                <ul class="navbar-nav ms-lg-5 me-lg-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Sign Out</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+<main>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<section class="hero-section d-flex justify-content-center align-items-center" id="section_1">
+<div class="container">
+    <div class="row">
+        {{!-- <div class="col-md-8 post-box"> --}}
+            <div class="col-12 text-center">
+                <h2 class="mb-4">Community Forum</h1>
+                <a href="/addPost" class="btn custom-btn custom-btn2 mt-3 mt-lg-4">+ Add New Post</a>
+                <a href="/myPosts" class="btn custom-btn custom-btn2 mt-3 mt-lg-4">-> My Posts</a>
+            </div>
+            <div class="row justify-content-center mt-4">
+                <div class="col-lg-6 col-12">
+                    <form action="/community" method="get" class="custom-form custom-form2 contact-form" role="form">
+                        <div class="row">
+                            <div class="col-lg-8 col-12">
+                                <div class="form-floating">
+                                    <input type="text" name="searchQuery" id="name" class="form-control" placeholder="Name" required="">
+                                    <label for="name">Enter Keywords to search Posts</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-12">
+                                <button type="submit" class="btn custom-btn custom-btn2 mt-3 mt-lg-0 btn-block">Search</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <form action="/community" method="get" class="custom-form custom-form2 contact-form" role="form">
+                        <div class="row">
+                            <div class="col-lg-8 col-12">
+                                <div class="form-floating">
+                                    <select id="sort" class="form-control" name="sortOrder">
+                                        <option value="asc">Oldest First</option>
+                                        <option value="desc">Newest First</option>
+                                    </select>
+                                    {{!-- <input type="text" name="searchQuery" id="name" class="form-control" placeholder="Name" required=""> --}}
+                                    <label for="name">Sort by Date</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-12">
+                                <button type="submit" class="btn custom-btn custom-btn2 mt-3 mt-lg-0 btn-block">Sort by</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-lg-8 col-12 mt-3 mx-auto">
+                {{#if allPosts.length}}
+                    {{#each allPosts}}
+                        <div class="custom-block custom-block-topics-listing bg-white shadow-lg mb-5">
+                            <div class="d-flex comment-box">
+                                {{!-- {{#if (eq this.modd "angry")}}
+                                    <img src="images/topics/undraw_Remote_design_team_re_urdx.png" class="custom-block-image img-fluid" alt="">
+                                {{else if (eq this.mood "happy")}}
+                                    <img src="images/topics/undraw_online_ad_re_ol62.png" class="custom-block-image img-fluid" alt="">
+                                {{else if (eq this.mood "sad")}}
+                                    <img src="images/topics/undraw_Podcast_audience_re_4i5q.png" class="custom-block-image img-fluid" alt="">
+                                {{else}}
+                                    <img src="images/topics/undraw_happy_music_g6wc.png" class="custom-block-image img-fluid" alt="">
+                                {{/if}} --}}
+
+                                {{!-- <img src="images/topics/undraw_Remote_design_team_re_urdx.png" class="custom-block-image img-fluid" alt=""> --}}
+
+
+                                <div class="custom-block-topics-listing-info d-flex">
+                                    <div>
+                                        {{!-- <h5 class="mb-2">[{{formatDate this.date}}] {{this.summary}}</h5> --}}
+                                        {{!-- <h5 class="mb-2">{{this.userName}}Posted on: {{formatDate this.date}}</h5> --}}
+                                        <h5 style="color:black" class="mb-2">{{this.userName}}</h5> <p style="color:grey; font-size:12px;">Posted on: {{formatDate this.date}}</p>
+                                        <p style="color:black" class="mb-0">{{this.content}}</p>
+                                        </p>
+
+                                        {{!-- <form method="POST" action="/deleteDiary">
+                                            <input type="hidden" name="blogId" value="{{this._id}}">
+                                            <button type="submit" class="btn custom-btn mt-3 mt-lg-4">Delete</button>
+                                        </form>  --}}
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="comments-container" id="commentsContainer-{{this._id}}">
+                                <h6 class="post-comment-title">Comments</h6>
+                                {{#each this.replies}}
+                                <div class="comment comment2">
+                                    <p class="comment-meta comment-meta2"><span style="color:grey; font-size: 10px;" class="comment-date">{{formatDate this.date}}</span></p>
+                                    <p class="comment-content comment-content2" style="color: black; font-size: 0.9em;">{{this.userName}}: {{this.content}}</p>
+                                </div>
+                                {{/each}}
+                            </div>
+                            <div>
+                                <form class="commentForm" id="commentForm-{{this._id}}" data-post-id="{{this._id}}">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control form-control2 commentInput" name="comment" placeholder="Add a comment">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary submitBtn">Submit</button>
+                                    <a id="toggleCommentsBtn" class="btn btn-primary submitBtn">Show More</a>
+                                </form>
+                            </div>
+                        </div>
+                    {{/each}}
+                {{else}}
+                    <div class="custom-block custom-block-topics-listing bg-white shadow-lg mb-5">
+                            <div class="d-flex">
+                                {{!-- <img src="images/topics/undraw_Remote_design_team_re_urdx.png" class="custom-block-image img-fluid" alt=""> --}}
+
+                                <div class="custom-block-topics-listing-info d-flex">
+                                    <div>
+                                        <h5 class="mb-2">No Posts Found</h5>
+
+                                        {{!-- <p class="mb-0">We couldn't find any posts containing the keyword you searched for. Please double-check the spelling or try using different keywords for a more accurate search.</p> --}}
+                                        </p>
+
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                {{/if}}
+            </div>
+
+            {{!-- <div class="col-lg-8 col-12 mt-3 mx-auto">
+                {{#if allPosts.length}}
+                    {{#each allPosts}}
+                        <div class="custom-block custom-block-topics-listing bg-white shadow-lg mb-5">
+                            <div class="d-flex">
+                                <div class="custom-block-topics-listing-info d-flex">
+                                    <div>
+                                        <h5 class="mb-2">{{this.userName}}</h5> <p style="color:grey; font-size:12px;">Posted on: {{formatDate this.date}}</p>
+                                        <p class="mb-0"> {{this.content}}</p>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="commentsContainer" id="commentsContainer-{{this._id}}">
+                            <h6>Comments</h6>
+                            {{#each this.replies}}
+                                <span>{{this.userName}}:  {{this.content}}</span> <span style="color:grey; font-size: 10px;" >{{formatDate this.date}}</span>
+                               </br>
+                            {{/each}}
+                        
+                        </div>
+                        <div>
+                        <form class="commentForm" id="commentForm-{{this._id}}" data-post-id="{{this._id}}">
+                                <input type="text" class="commentInput" name="comment" placeholder="Add a comment">
+                                <button type="submit" class="submitBtn">Submit</button>
+                        </form>
+                        </div>
+                    {{/each}}
+                {{else}}
+                    <div class="custom-block custom-block-topics-listing bg-white shadow-lg mb-5">
+                            <div class="d-flex">
+                                <img src="images/topics/undraw_Remote_design_team_re_urdx.png" class="custom-block-image img-fluid" alt="">
+
+                                <div class="custom-block-topics-listing-info d-flex">
+                                    <div>
+                                        <h5 class="mb-2">No Entries Found</h5>
+
+                                        <p class="mb-0">You still haven't added anything to your diary yet. Click on the button above to start your journaling journey.</p>
+                                        </p>
+
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                {{/if}}
+            </div>  --}}
+              
+            </div>
+        {{!-- </div> --}}
+    </div>
+</div>
+</section>
+</main>
+ <!-- JavaScript to handle form submission and AJAX request -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+    $('.commentForm').submit(function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Get comment content from input field
+        var commentContent = $(this).find('.commentInput').val();
+        var postId = $(this).data('post-id');
+
+        // Send AJAX request to server to submit comment
+        $.ajax({
+            url: '/submitComment',
+            method: 'POST',
+            data: { comment: commentContent, postId: postId },
+            success: function(response) {
+                // Upon successful submission, append the new comment to the UI
+                // var newComment = '<div class="comment">' + response.userName + ": " + response.comment + '</div>';
+                var newComment = '<div class="comment">' +
+                        '<p class="comment-meta comment-meta2"><span style="color:grey; font-size: 10px;" class="comment-date">{{formatDate response.date}}</span></p>' +
+                        '<p class="comment-content comment-content2" style="color: black; font-size: 0.9em;">' + response.userName + ': ' + response.comment + '</p>' +
+                    '</div>';
+                $('#commentsContainer-' + postId).append(newComment);
+                $('.commentInput').val('');
+            },
+            error: function(xhr, status, error) {
+               // console.error('Error submitting comment:', error);
+            }
+        });
+    });
+
+    // Function to sort posts by date
+    function sortPosts(order) {
+        const url = `/community?sortBy=${order}`;
+        console.log(url);
+        window.location.href = url;
+    }
+
+    // Function to search posts by title or content
+    function searchPosts() {
+        const searchTerm = document.getElementById('searchInput').value;
+        const url = `/community?search=${searchTerm}`;
+        window.location.href = url;
+    }
+
+    // Initially hide comments beyond the first 5
+    $('.comment').slice(3).hide();
+
+    // Event listener for toggle button
+    $('#toggleCommentsBtn').click(function() {
+        $('.comment').slice(3).toggle();
+        $(this).text(function(i, text) {
+            return text === "Show More" ? "Show Less" : "Show More";
+        });
+    });
+
+    // Event listener for delete buttons
+     $('.deleteBtn').click(function() {
+        var commentId = $(this).data('comment-id');
+        var postId = $(this).closest('.commentsContainer').data('post-id');
+
+        // Send AJAX request to server to delete the comment
+        $.ajax({
+            url: '/deleteComment',
+            method: 'DELETE',
+            data: { postId: postId, commentId: commentId },
+            success: function(response) {
+                // Remove the deleted comment from the UI
+                $(this).closest('.comment').remove();
+            },
+            error: function(xhr, status, error) {
+                console.error('Error deleting comment:', error);
+            }
+        });
+    }); 
+
+});
+
+</script>
+</body>
+</html>
+
+<!--
+    $('.deleteBtn').click(function() {
+        var commentId = $(this).data('comment-id');
+        var postId = $(this).data('post-id');
+
+        // Send AJAX request to server to delete the comment
+        $.ajax({
+            url: '/deleteComment',
+            method: 'DELETE',
+            data: { postId: postId, commentId: commentId },
+            success: function(response) {
+                // Remove the deleted comment from the UI
+                $(this).closest('.comment').remove();
+            },
+            error: function(xhr, status, error) {
+                console.error('Error deleting comment:', error);
+            }
+        });
+        
+        -->
