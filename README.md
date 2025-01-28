@@ -1,8 +1,8 @@
-# Soundscape: Discover. Discuss. Document.
+# Soundscape Stories
 
 ## Overview
 
-Soundscape is a web-based platform designed to explore urban soundscapes, cultural identity, and the emotional impact of sound. This project was my way of connecting with the city of New York, providing users with an interactive space to reflect on and engage with their sonic surroundings. The website is live at [Soundscape Deployment](https://soundscape.up.railway.app/).
+Soundscape Stories is a web-based platform designed to explore urban soundscapes, cultural identity, and the emotional impact of sound. This project was my way of connecting with the city of New York, providing users with an interactive space to reflect on and engage with their sonic surroundings. The website is live at [Soundscape Stories Deployment](https://soundscape.up.railway.app/).
 
 ## Technologies Used
 
